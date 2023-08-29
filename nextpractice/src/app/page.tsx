@@ -1,95 +1,80 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import { useState, ChangeEvent } from "react";
 
-export default function Home() {
+type TodoType = {
+  title: string;
+  body?: string;
+};
+
+export default function HomePage() {
+  const [todoTitleValue, setTodoTitleValue] = useState<string>("");
+  const [todoBodyValue, setTodoBodyValue] = useState<string>("");
+  const [todosArr, setTodosArr] = useState<TodoType[]>([]);
+
+  function updateTodoTitleValue(e: ChangeEvent<HTMLInputElement>) {
+    setTodoTitleValue(e.target.value);
+  }
+
+  function updateTodoBodyValue(e: ChangeEvent<HTMLInputElement>) {
+    setTodoBodyValue(e.target.value);
+  }
+
+  function createTodo() {
+    if (todoTitleValue === "") {
+      //ADD A BETTER ERROR MSG
+      alert("Todo Title cannot be empty");
+
+      return;
+    }
+    if (todoBodyValue === "") {
+      //ADD A BETTER ERROR MSG
+      alert("Todo Body cannot be empty");
+      return;
+    }
+
+    const newTodo: TodoType = {
+      title: todoTitleValue,
+      body: todoBodyValue,
+    };
+
+    setTodosArr((prev) => [...prev, newTodo]);
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="homePageMainContainer">
+      <div className="centerPageContainer">
+        <div className="centerPageTopContainer">
+          <div className="centerPageTop">
+            <div className="todoTitleContainer">
+              <label htmlFor="todo-title">Title:</label>
+              <input
+                value={todoTitleValue}
+                type="text"
+                id="todo-title"
+                onChange={updateTodoTitleValue}
+              />
+            </div>
+            <div className="todoBodyInputContainer">
+              <label htmlFor="todo-body">Body:</label>
+              <input
+              
+                value={todoBodyValue}
+                type="text"
+                id="todo-body"
+                onChange={updateTodoBodyValue}
+              />
+            </div>
+            <div className="todoCreateBtnContainer">
+              <button onClick={() => createTodo()}>Create Todo</button>
+            </div>
+          </div>
+        </div>
+        <div className="mainContentContainer">
+          {todosArr.map((todo) => {
+            return <h1 key={todo.body}>{todo.title}</h1>;
+          })}
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }
