@@ -32,8 +32,11 @@ export default function Login() {
     }
 
     if (passwordLoginValue === "") {
-      // MAKE ERROR BETTER
-      alert("Please enter a password");
+      setTimeout(() => {
+        setPasswordError(false);
+      }, 1200);
+
+      setPasswordError(true);
       return;
     }
   }
@@ -48,13 +51,11 @@ export default function Login() {
           <div className="mainLoginContent">
             <div className="usernameInputContainer">
               <div className="usernameWrapper">
-                {!usernameError && (
+                {usernameError ? (
                   <label htmlFor="username-label" className="usernameFirstLabel">
                     Username
                   </label>
-                )}
-
-                {usernameError && (
+                ) : (
                   <label htmlFor="username-label" style={{ color: "red", marginBottom: "4px" }}>
                     enter a username
                   </label>
@@ -70,9 +71,15 @@ export default function Login() {
             </div>
             <div className="passwordInputContainer">
               <div className="passwordWrapper">
-                <label htmlFor="password-label" className="passwordFirstLabel">
-                  Password
-                </label>
+                {passwordError ? (
+                  <label htmlFor="password-label" className="passwordFirstLabel">
+                    Password
+                  </label>
+                ) : (
+                  <label htmlFor="password-label" className="passwordFirstLabel">
+                    Please enter a password
+                  </label>
+                )}
                 <input
                   value={passwordLoginValue}
                   type="text"

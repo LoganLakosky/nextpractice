@@ -5,6 +5,7 @@ export default function Signup() {
   <div className="mainSignup">
     <div className="mainSignupTop">
       <h1>Signup</h1>
+      
     </div>
     <div className="mainSignupContentContainer">
           <div className="mainSignupContent">
