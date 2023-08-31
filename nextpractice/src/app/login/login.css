@@ -62,7 +62,6 @@
   align-items: flex-start;
 }
 
-
 .usernameWrapper label {
   width: 100%;
 }
@@ -71,8 +70,6 @@
 .passwordFirstLabel {
   margin-bottom: 4px;
 }
-
-
 
 .usernameWrapper input {
   padding: 5px 0px 5px 4px;

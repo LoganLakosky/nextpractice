@@ -63,6 +63,10 @@
   align-items: flex-start;
 }
 
+.usernameWrapper label {
+  width: 100%;
+}
+
 .usernameFirstLabel,
 .passwordFirstLabel {
   margin-bottom: 4px;
@@ -101,7 +105,6 @@
   justify-content: center;
 }
 
-
 .signupPageBtn {
   display: flex;
   justify-content: center;
@@ -113,4 +116,3 @@
   background-color: dimgray;
   padding-bottom: 5px;
 }
-

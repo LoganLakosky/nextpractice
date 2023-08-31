@@ -52,12 +52,12 @@ export default function Login() {
             <div className="usernameInputContainer">
               <div className="usernameWrapper">
                 {usernameError ? (
-                  <label htmlFor="username-label" className="usernameFirstLabel">
-                    Username
-                  </label>
-                ) : (
                   <label htmlFor="username-label" style={{ color: "red", marginBottom: "4px" }}>
                     enter a username
+                  </label>
+                ) : (
+                  <label htmlFor="username-label" className="usernameFirstLabel">
+                    Username
                   </label>
                 )}
 
@@ -72,12 +72,16 @@ export default function Login() {
             <div className="passwordInputContainer">
               <div className="passwordWrapper">
                 {passwordError ? (
-                  <label htmlFor="password-label" className="passwordFirstLabel">
-                    Password
+                  <label
+                    htmlFor="password-label"
+                    className="passwordFirstLabel"
+                    style={{ color: "red" }}
+                  >
+                    Please enter a password
                   </label>
                 ) : (
                   <label htmlFor="password-label" className="passwordFirstLabel">
-                    Please enter a password
+                    Password
                   </label>
                 )}
                 <input
