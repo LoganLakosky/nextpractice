@@ -1,11 +1,115 @@
 .mainSignupContainer {
-
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
 .mainSignup {
-
+  display: flex;
+  width: 50%;
+  height: 60%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 2px solid white;
+  border-radius: 6px;
 }
 
 .mainSignupTop {
-  
+  display: flex;
+  width: 100%;
+  height: 10%;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid white;
 }
+
+.mainSignupContentContainer {
+  display: Flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainSignupContent {
+  display: Flex;
+  width: 60%;
+  height: 60%;
+  border: 2px solid white;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.usernameSignupContainer {
+  display: flex;
+  width: 50%;
+  height: 35%;
+  justify-content: center;
+  align-items: center;
+}
+
+.usernameWrapper {
+  display: flex;
+  width: 70%;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.usernameFirstLabel,
+.passwordFirstLabel {
+  margin-bottom: 4px;
+}
+
+.usernameWrapper input {
+  padding: 5px 0px 5px 4px;
+}
+
+.passwordSignupContainer {
+  display: flex;
+  width: 50%;
+  height: 35%;
+  justify-content: center;
+  align-items: center;
+}
+
+.passwordWrapper {
+  display: flex;
+  width: 70%;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.passwordWrapper input {
+  padding: 5px 0px 5px 4px;
+}
+
+.signupPageBtnContainer {
+  display: Flex;
+  width: 100%;
+  height: 20%;
+  align-items: center;
+  justify-content: center;
+}
+
+.signupPageBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  height: 70%;
+  border-radius: 6px;
+  font-size: 18px;
+  background-color: dimgray;
+  padding-bottom: 5px;
+}
+
