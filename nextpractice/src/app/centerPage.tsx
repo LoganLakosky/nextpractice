@@ -1,4 +1,3 @@
-import { Red_Hat_Display } from "next/font/google";
 import { useState, ChangeEvent } from "react";
 import MainContent from "./mainContent";
 

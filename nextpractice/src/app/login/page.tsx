@@ -1,5 +1,10 @@
+import "./login.css";
 export default function Login() {
-  return (
-    <h1>yoooo</h1>
-  )
+  return <div className="mainLoginContainer">
+    <div className="mainLogin">
+      <div className="mainLoginTop">
+        <h1>Login</h1>
+      </div>
+    </div>
+  </div>
 }
