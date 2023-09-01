@@ -13,7 +13,8 @@ export default function Signup() {
 
   //Error states
   const [usernameError, setUsernameError] = useState<boolean>(false);
-  const [passwordError, setPasswordErorr] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [userExistsError, setUserExistsError] = useState<boolean>(false);
 
   const firebaseConfig = {
     apiKey: "AIzaSyC1xSf41NuZdXi9Ex-gM6LUqvF_PK0u1uI",
@@ -24,8 +25,6 @@ export default function Signup() {
     appId: "1:935446946378:web:772dad7adda9262d23bcb3",
     measurementId: "G-5BTR9RJFC3",
   };
-
-  const a = [1, 2, 3, 45, 56].reverse();
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
@@ -44,10 +43,45 @@ export default function Signup() {
     return [inQ, newestUserName];
   }
 
+  function timeout(fn: any, delay: number) {
+    setTimeout(() => {
+      fn(false);
+    }, delay);
+  }
+
   async function postNewUser(userId: string, password: string) {
+    if ((await checkIfUserExists(userId)) !== false) {
+      timeout(setUserExistsError, 1200);
+
+      setUserExistsError(true);
+      return;
+    }
+
     await setDoc(doc(db, "userInformation", userId), {
       name: userId,
       password: password,
+    });
+
+    setLoggedIn();
+
+    window.location.href = "/";
+  }
+
+  async function checkIfUserExists(userId: string) {
+    const docRef = doc(db, "userInformation", userId);
+    const docSnap = await getDoc(docRef);
+
+    const data = docSnap.data();
+    if (data === undefined) {
+      return false;
+    }
+
+    return true;
+  }
+
+  async function setLoggedIn() {
+    await setDoc(doc(db, "isLoggedIn", "isLoggedIn"), {
+      loggedIn: true,
     });
   }
 
@@ -69,18 +103,17 @@ export default function Signup() {
 
   function signUserUp() {
     if (usernameSignupValue === "") {
-      setTimeout(() => {
-        setUsernameError(false);
-      }, 1200);
+      timeout(setUsernameError, 1200);
+
       setUsernameError(true);
       return;
     }
 
     if (passwordSignupValue === "") {
-      setTimeout(() => {
-        setPasswordErorr(false);
-      });
-      setPasswordErorr(true);
+      timeout(setPasswordError, 1200);
+
+      setPasswordError(true);
+
       return;
     }
 
@@ -91,7 +124,11 @@ export default function Signup() {
     <div className="mainSignupContainer">
       <div className="mainSignup">
         <div className="mainSignupTop">
-          <h1>Signup</h1>
+          {userExistsError ? (
+            <h1 style={{ color: "red" }}>User already exists</h1>
+          ) : (
+            <h1>Signup</h1>
+          )}
         </div>
         <div className="mainSignupContentContainer">
           <div className="mainSignupContent">
