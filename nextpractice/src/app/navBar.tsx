@@ -48,7 +48,8 @@ export default function NavBar() {
     <>
       <div className="navBarContainer">
         <div className="navBarLeft">
-          <h1>Tod's Todo's</h1>
+        <Link href="/">Tod's Todo's</Link>
+
         </div>
         <div className="navBarRight">
           {isLoggedIn && <Link href="/login">Login</Link>}

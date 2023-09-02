@@ -3,7 +3,6 @@ a {
   color: white;
 }
 
-
 .navBarContainer {
   display: flex;
   width: 100%;
@@ -15,14 +14,15 @@ a {
 
 .navBarLeft {
   display: flex;
-  width: 12%;
+  width: 8%;
   height: 100%;
   align-items: center;
   justify-content: center;
+  margin-left: 15px;
 }
 
-.navBarLeft h1 {
-  font-size: 25px;
+.navBarLeft a {
+  font-size: 20px;
 }
 
 .navBarRight {
@@ -33,5 +33,4 @@ a {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  
 }

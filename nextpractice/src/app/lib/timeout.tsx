@@ -1,5 +1,5 @@
-export  function Timeout(fn: any, delay: number) {
+export function Timeout(fn: any, delay: number) {
   setTimeout(() => {
-    fn(true);
+    fn(false);
   }, delay);
 }

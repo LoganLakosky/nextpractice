@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { TodoType } from "./centerPage";
 
 type MainContentProps = {
@@ -16,7 +17,7 @@ export default function MainContent({ leftSideTodos, rightSideTodos }: MainConte
                 <h2>{todo.title}</h2>
               </div>
 
-              <button className="goToTodoBtn"></button>
+              <Link href={`/todos/${idx}`} className="goToTodoBtn"></Link>
             </div>
           );
         })}
@@ -24,14 +25,14 @@ export default function MainContent({ leftSideTodos, rightSideTodos }: MainConte
       <div className="mainContentRight">
         {rightSideTodos.map((todo, idx) => {
           return (
-          <div className="rightSideTodos" key={idx}>
-            <div className="rightSideTodosTop">
-              <h2>{todo.title}</h2>
-            </div>
+            <div className="rightSideTodos" key={idx}>
+              <div className="rightSideTodosTop">
+                <h2>{todo.title}</h2>
+              </div>
 
-            <button className="goToTodoBtn"></button>
-          </div>
-          )
+              <Link href={`/todos/${idx}`} className="goToTodoBtn"></Link>
+            </div>
+          );
         })}
       </div>
     </>

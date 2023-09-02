@@ -33,21 +33,14 @@ export default function CenterPage() {
 
   function createTodo() {
     if (todoTitleValue === "") {
-      //ADD A BETTER ERROR MSG
-
       Timeout(setTodoTitleError, 1200);
-
       setTodoTitleError(true);
-
       return;
     }
 
     if (todoBodyValue === "") {
-      //ADD A BETTER ERROR MSG
       Timeout(setTodoBodyError, 1200);
-
       setTodoBodyError(true);
-
       return;
     }
 
@@ -57,6 +50,9 @@ export default function CenterPage() {
     };
 
     if (rightTodosArr.length === 3) {
+      Timeout(setMaxTodosReachedErr, 1200);
+      setMaxTodosReachedErr(true);
+      clearInputs();
       return;
     }
 
@@ -74,41 +70,45 @@ export default function CenterPage() {
   return (
     <div className="centerPageContainer">
       <div className="centerPageTopContainer">
-        <div className="centerPageTop">
-          <div className="todoTitleContainer">
-            {!todoTitleError && <label htmlFor="todo-title">Title</label>}
-            {todoTitleError && (
-              <label htmlFor="todo-title" style={{ color: "red", fontSize: "14px" }}>
-                Todo Title cannot be empty
-              </label>
-            )}
-            <input
-              value={todoTitleValue}
-              type="text"
-              id="todo-title"
-              onChange={updateTodoTitleValue}
-            />
-          </div>
-          <div className="todoBodyInputContainer">
-            {!todoBodyError && <label htmlFor="todo-body">Body</label>}
-            {todoBodyError && (
-              <label htmlFor="todo-body" style={{ color: "red", fontSize: "14px" }}>
-                Todo Body cannot be empty
-              </label>
-            )}
+        {!maxTodosReachedErr ? (
+          <div className="centerPageTop">
+            <div className="todoTitleContainer">
+              {!todoTitleError && <label htmlFor="todo-title">Title</label>}
+              {todoTitleError && (
+                <label htmlFor="todo-title" style={{ color: "red", fontSize: "14px" }}>
+                  Todo Title cannot be empty
+                </label>
+              )}
+              <input
+                value={todoTitleValue}
+                type="text"
+                id="todo-title"
+                onChange={updateTodoTitleValue}
+              />
+            </div>
+            <div className="todoBodyInputContainer">
+              {!todoBodyError && <label htmlFor="todo-body">Body</label>}
+              {todoBodyError && (
+                <label htmlFor="todo-body" style={{ color: "red", fontSize: "14px" }}>
+                  Todo Body cannot be empty
+                </label>
+              )}
 
-            <input
-              value={todoBodyValue}
-              type="text"
-              id="todo-body"
-              onChange={updateTodoBodyValue}
-            />
-          </div>
+              <input
+                value={todoBodyValue}
+                type="text"
+                id="todo-body"
+                onChange={updateTodoBodyValue}
+              />
+            </div>
 
-          <div className="todoCreateBtnContainer">
-            <button onClick={() => createTodo()}>Create Todo</button>
+            <div className="todoCreateBtnContainer">
+              <button onClick={() => createTodo()}>Create Todo</button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <h1 style={{ color: "Red" }}>Max todos reached</h1>
+        )}
       </div>
       <div className="mainContentContainer">
         <MainContent leftSideTodos={leftTodosArr} rightSideTodos={rightTodosArr} />
