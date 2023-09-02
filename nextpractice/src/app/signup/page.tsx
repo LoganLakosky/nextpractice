@@ -5,7 +5,24 @@ import "./signup.css";
 
 import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc, doc, getDoc, collection, getDocs } from "firebase/firestore";
-import { getDatabase, ref, set } from "firebase/database";
+import { Timeout } from "../lib/timeout";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC1xSf41NuZdXi9Ex-gM6LUqvF_PK0u1uI",
+  authDomain: "next-practice-f806e.firebaseapp.com",
+  projectId: "next-practice-f806e",
+  storageBucket: "next-practice-f806e.appspot.com",
+  messagingSenderId: "935446946378",
+  appId: "1:935446946378:web:772dad7adda9262d23bcb3",
+  measurementId: "G-5BTR9RJFC3",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
 
 export default function Signup() {
   const [usernameSignupValue, setUsernameSignupValue] = useState<string>("");
@@ -15,22 +32,6 @@ export default function Signup() {
   const [usernameError, setUsernameError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [userExistsError, setUserExistsError] = useState<boolean>(false);
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyC1xSf41NuZdXi9Ex-gM6LUqvF_PK0u1uI",
-    authDomain: "next-practice-f806e.firebaseapp.com",
-    projectId: "next-practice-f806e",
-    storageBucket: "next-practice-f806e.appspot.com",
-    messagingSenderId: "935446946378",
-    appId: "1:935446946378:web:772dad7adda9262d23bcb3",
-    measurementId: "G-5BTR9RJFC3",
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-
-  // Initialize Cloud Firestore and get a reference to the service
-  const db = getFirestore(app);
 
   async function getAmountInQ() {
     let docRef = doc(db, "peopleInQ", "totalInQ");
@@ -43,15 +44,9 @@ export default function Signup() {
     return [inQ, newestUserName];
   }
 
-  function timeout(fn: any, delay: number) {
-    setTimeout(() => {
-      fn(false);
-    }, delay);
-  }
-
   async function postNewUser(userId: string, password: string) {
     if ((await checkIfUserExists(userId)) !== false) {
-      timeout(setUserExistsError, 1200);
+      Timeout(setUserExistsError, 1200);
 
       setUserExistsError(true);
       return;
@@ -103,14 +98,14 @@ export default function Signup() {
 
   function signUserUp() {
     if (usernameSignupValue === "") {
-      timeout(setUsernameError, 1200);
+      Timeout(setUsernameError, 1200);
 
       setUsernameError(true);
       return;
     }
 
     if (passwordSignupValue === "") {
-      timeout(setPasswordError, 1200);
+      Timeout(setPasswordError, 1200);
 
       setPasswordError(true);
 

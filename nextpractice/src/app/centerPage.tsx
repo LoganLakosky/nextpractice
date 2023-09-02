@@ -1,7 +1,8 @@
 import { useState, ChangeEvent } from "react";
 import MainContent from "./mainContent";
+import { Timeout } from "./lib/timeout";
 
-type TodoType = {
+export type TodoType = {
   title: string;
   body?: string;
 };
@@ -9,11 +10,18 @@ type TodoType = {
 export default function CenterPage() {
   const [todoTitleValue, setTodoTitleValue] = useState<string>("");
   const [todoBodyValue, setTodoBodyValue] = useState<string>("");
-  const [todosArr, setTodosArr] = useState<TodoType[]>([]);
+  const [leftTodosArr, setLeftTodosArr] = useState<TodoType[]>([]);
+  const [rightTodosArr, setRightTodosArr] = useState<TodoType[]>([]);
 
   //Error states
   const [todoTitleError, setTodoTitleError] = useState<boolean>(false);
   const [todoBodyError, setTodoBodyError] = useState<boolean>(false);
+  const [maxTodosReachedErr, setMaxTodosReachedErr] = useState<boolean>(false);
+
+  function clearInputs() {
+    setTodoTitleValue("");
+    setTodoBodyValue("");
+  }
 
   function updateTodoTitleValue(e: ChangeEvent<HTMLInputElement>) {
     setTodoTitleValue(e.target.value);
@@ -26,9 +34,8 @@ export default function CenterPage() {
   function createTodo() {
     if (todoTitleValue === "") {
       //ADD A BETTER ERROR MSG
-      setTimeout(() => {
-        setTodoTitleError(false);
-      }, 1200);
+
+      Timeout(setTodoTitleError, 1200);
 
       setTodoTitleError(true);
 
@@ -37,9 +44,7 @@ export default function CenterPage() {
 
     if (todoBodyValue === "") {
       //ADD A BETTER ERROR MSG
-      setTimeout(() => {
-        setTodoBodyError(false);
-      }, 1200);
+      Timeout(setTodoBodyError, 1200);
 
       setTodoBodyError(true);
 
@@ -51,7 +56,19 @@ export default function CenterPage() {
       body: todoBodyValue,
     };
 
-    setTodosArr((prev) => [...prev, newTodo]);
+    if (rightTodosArr.length === 3) {
+      return;
+    }
+
+    if (leftTodosArr.length === 3) {
+      clearInputs();
+      setRightTodosArr((prev) => [...prev, newTodo]);
+      return;
+    }
+
+    clearInputs();
+
+    setLeftTodosArr((prev) => [...prev, newTodo]);
   }
 
   return (
@@ -94,7 +111,7 @@ export default function CenterPage() {
         </div>
       </div>
       <div className="mainContentContainer">
-        <MainContent />
+        <MainContent leftSideTodos={leftTodosArr} rightSideTodos={rightTodosArr} />
       </div>
     </div>
   );

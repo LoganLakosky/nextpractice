@@ -1,8 +1,8 @@
-"use client";
-
 import "./login.css";
 
 import { ChangeEvent, useState } from "react";
+
+import { Timeout } from "../lib/timeout";
 
 export default function Login() {
   const [usernameLoginValue, setUsernameLoginValue] = useState<string>("");
@@ -22,9 +22,7 @@ export default function Login() {
 
   async function logUserIn() {
     if (usernameLoginValue === "") {
-      setTimeout(() => {
-        setUsernameError(false);
-      }, 1200);
+      Timeout(setUsernameError, 1200);
 
       setUsernameError(true);
 
@@ -32,9 +30,7 @@ export default function Login() {
     }
 
     if (passwordLoginValue === "") {
-      setTimeout(() => {
-        setPasswordError(false);
-      }, 1200);
+      Timeout(setPasswordError, 1200);
 
       setPasswordError(true);
       return;
