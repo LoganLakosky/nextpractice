@@ -1,3 +1,5 @@
+"use client"
+
 import "./login.css";
 
 import { ChangeEvent, useState } from "react";
