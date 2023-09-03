@@ -2,116 +2,116 @@ import { useState, ChangeEvent } from "react";
 import MainContent from "./mainContent";
 import { Timeout } from "./lib/timeout";
 
-export type TodoType = {
+export type NoteType = {
   title: string;
   body?: string;
 };
 
 export default function CenterPage() {
-  const [todoTitleValue, setTodoTitleValue] = useState<string>("");
-  const [todoBodyValue, setTodoBodyValue] = useState<string>("");
-  const [leftTodosArr, setLeftTodosArr] = useState<TodoType[]>([]);
-  const [rightTodosArr, setRightTodosArr] = useState<TodoType[]>([]);
+  const [noteTitleValue, setNoteTitleValue] = useState<string>("");
+  const [noteBodyValue, setNoteBodyValue] = useState<string>("");
+  const [leftNotesArr, setLeftNotesArr] = useState<NoteType[]>([]);
+  const [rightNotesArr, setRightNotesArr] = useState<NoteType[]>([]);
 
   //Error states
-  const [todoTitleError, setTodoTitleError] = useState<boolean>(false);
-  const [todoBodyError, setTodoBodyError] = useState<boolean>(false);
-  const [maxTodosReachedErr, setMaxTodosReachedErr] = useState<boolean>(false);
+  const [noteTitleError, setNoteTitleError] = useState<boolean>(false);
+  const [noteBodyError, setNoteBodyError] = useState<boolean>(false);
+  const [maxNotesReachedErr, setMaxNotesReachedErr] = useState<boolean>(false);
 
   function clearInputs() {
-    setTodoTitleValue("");
-    setTodoBodyValue("");
+    setNoteTitleValue("");
+    setNoteBodyValue("");
   }
 
-  function updateTodoTitleValue(e: ChangeEvent<HTMLInputElement>) {
-    setTodoTitleValue(e.target.value);
+  function updateNoteTitleValue(e: ChangeEvent<HTMLInputElement>) {
+    setNoteTitleValue(e.target.value);
   }
 
-  function updateTodoBodyValue(e: ChangeEvent<HTMLInputElement>) {
-    setTodoBodyValue(e.target.value);
+  function updateNoteBodyValue(e: ChangeEvent<HTMLInputElement>) {
+    setNoteBodyValue(e.target.value);
   }
 
-  function createTodo() {
-    if (todoTitleValue === "") {
-      Timeout(setTodoTitleError, 1200);
-      setTodoTitleError(true);
+  function createNote() {
+    if (noteTitleValue === "") {
+      Timeout(setNoteTitleError, 1200);
+      setNoteTitleError(true);
       return;
     }
 
-    if (todoBodyValue === "") {
-      Timeout(setTodoBodyError, 1200);
-      setTodoBodyError(true);
+    if (noteBodyValue === "") {
+      Timeout(setNoteBodyError, 1200);
+      setNoteBodyError(true);
       return;
     }
 
-    const newTodo: TodoType = {
-      title: todoTitleValue,
-      body: todoBodyValue,
+    const newNote: NoteType = {
+      title: noteTitleValue,
+      body: noteBodyValue,
     };
 
-    if (rightTodosArr.length === 3) {
-      Timeout(setMaxTodosReachedErr, 1200);
-      setMaxTodosReachedErr(true);
+    if (rightNotesArr.length === 3) {
+      Timeout(setMaxNotesReachedErr, 1200);
+      setMaxNotesReachedErr(true);
       clearInputs();
       return;
     }
 
-    if (leftTodosArr.length === 3) {
+    if (leftNotesArr.length === 3) {
       clearInputs();
-      setRightTodosArr((prev) => [...prev, newTodo]);
+      setRightNotesArr((prev) => [...prev, newNote]);
       return;
     }
 
     clearInputs();
 
-    setLeftTodosArr((prev) => [...prev, newTodo]);
+    setLeftNotesArr((prev) => [...prev, newNote]);
   }
 
   return (
     <div className="centerPageContainer">
       <div className="centerPageTopContainer">
-        {!maxTodosReachedErr ? (
+        {!maxNotesReachedErr ? (
           <div className="centerPageTop">
-            <div className="todoTitleContainer">
-              {!todoTitleError && <label htmlFor="todo-title">Title</label>}
-              {todoTitleError && (
-                <label htmlFor="todo-title" style={{ color: "red", fontSize: "14px" }}>
-                  Todo Title cannot be empty
+            <div className="noteTitleContainer">
+              {!noteTitleError && <label htmlFor="note-title">Title</label>}
+              {noteTitleError && (
+                <label htmlFor="note-title" style={{ color: "red", fontSize: "14px" }}>
+                  Note Title cannot be empty
                 </label>
               )}
               <input
-                value={todoTitleValue}
+                value={noteTitleValue}
                 type="text"
-                id="todo-title"
-                onChange={updateTodoTitleValue}
+                id="note-title"
+                onChange={updateNoteTitleValue}
               />
             </div>
-            <div className="todoBodyInputContainer">
-              {!todoBodyError && <label htmlFor="todo-body">Body</label>}
-              {todoBodyError && (
-                <label htmlFor="todo-body" style={{ color: "red", fontSize: "14px" }}>
-                  Todo Body cannot be empty
+            <div className="noteBodyInputContainer">
+              {!noteBodyError && <label htmlFor="note-body">Body</label>}
+              {noteBodyError && (
+                <label htmlFor="note-body" style={{ color: "red", fontSize: "14px" }}>
+                  Note Body cannot be empty
                 </label>
               )}
 
               <input
-                value={todoBodyValue}
+                value={noteBodyValue}
                 type="text"
-                id="todo-body"
-                onChange={updateTodoBodyValue}
+                id="note-body"
+                onChange={updateNoteBodyValue}
               />
             </div>
 
-            <div className="todoCreateBtnContainer">
-              <button onClick={() => createTodo()}>Create Todo</button>
+            <div className="noteCreateBtnContainer">
+              <button onClick={() => createNote()}>Create Note</button>
             </div>
           </div>
         ) : (
-          <h1 style={{ color: "Red" }}>Max todos reached</h1>
+          <h1 style={{ color: "Red" }}>Max notes reached</h1>
         )}
       </div>
       <div className="mainContentContainer">
-        <MainContent leftSideTodos={leftTodosArr} rightSideTodos={rightTodosArr} />
+        <MainContent leftSideNotes={leftNotesArr} rightSideNotes={rightNotesArr} />
       </div>
     </div>
   );

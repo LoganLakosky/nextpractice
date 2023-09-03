@@ -1,36 +1,37 @@
 import Link from "next/link";
-import { TodoType } from "./centerPage";
+import { NoteType } from "./centerPage";
 
 type MainContentProps = {
-  leftSideTodos: TodoType[];
-  rightSideTodos: TodoType[];
+  leftSideNotes: NoteType[];
+  rightSideNotes: NoteType[];
 };
 
-export default function MainContent({ leftSideTodos, rightSideTodos }: MainContentProps) {
+export default function MainContent({ leftSideNotes, rightSideNotes }: MainContentProps) {
   return (
     <>
       <div className="mainContentLeft">
-        {leftSideTodos.map((todo, idx) => {
+        {leftSideNotes.map((note, idx) => {
           return (
-            <div className="leftSideTodos" key={idx}>
-              <div className="leftSideTodosTop">
-                <h2>{todo.title}</h2>
+            <div className="leftSideNotes" key={idx}>
+              <div className="leftSideNotesTop">
+                <h2>{note.title}</h2>
               </div>
 
-              <Link href={`/todos/${idx}`} className="goToTodoBtn"></Link>
+              <Link
+                href={`/notes/title=!${note.title}!body=!${[note.body]}`}
+                className="goToNote"
+              ></Link>
             </div>
           );
         })}
       </div>
       <div className="mainContentRight">
-        {rightSideTodos.map((todo, idx) => {
+        {rightSideNotes.map((note, idx) => {
           return (
-            <div className="rightSideTodos" key={idx}>
-              <div className="rightSideTodosTop">
-                <h2>{todo.title}</h2>
+            <div className="rightSideNotes" key={idx}>
+              <div className="rightSideNotesTop">
+                <h2>{note.title}</h2>
               </div>
-
-              <Link href={`/todos/${idx}`} className="goToTodoBtn"></Link>
             </div>
           );
         })}

@@ -1,5 +1,4 @@
 "use client";
-
 import CenterPage from "./centerPage";
 import NavBar from "./navBar";
 
