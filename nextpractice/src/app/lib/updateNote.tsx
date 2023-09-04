@@ -1,6 +1,5 @@
 "use server";
-
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -17,12 +16,10 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-export default async function GetRightHalfNotes() {
-  const querySnapshot = await getDocs(collection(db, "Notes"));
-  const Notes: any = [];
-  querySnapshot.forEach((doc) => {
-    Notes.push(doc.data());
-  });
+export default async function UpdateNote(noteName: string, newNoteBody: string) {
+  const washingtonRef = doc(db, "Note", noteName);
 
-  return Notes;
+  await updateDoc(washingtonRef, {
+    noteBody: newNoteBody,
+  });
 }

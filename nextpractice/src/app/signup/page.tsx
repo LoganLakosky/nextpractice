@@ -7,7 +7,6 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc, doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { Timeout } from "../lib/timeout";
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyC1xSf41NuZdXi9Ex-gM6LUqvF_PK0u1uI",
   authDomain: "next-practice-f806e.firebaseapp.com",

@@ -1,5 +1,5 @@
 "use server";
-import { getFirestore, updateDoc } from "firebase/firestore";
+import { getFirestore, setDoc, doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -16,4 +16,11 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-//export default function UpdateDocument(note) {}
+export default async function PostNote(noteName: string, noteBody: string) {
+  const noteTitle = noteName;
+  await setDoc(doc(db, "Notes", noteName), {
+    title: noteTitle,
+    body: noteBody,
+  });
+  return true;
+}

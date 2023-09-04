@@ -2,7 +2,7 @@
 import "./navBar.css";
 import Link from "next/link";
 import IsLoggedIn from "./lib/isLoggedIn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -12,7 +12,9 @@ export default function NavBar() {
     setIsLoggedIn(isLoggedInTmp);
   }
 
-  getLoggedInStatus();
+  useEffect(() => {
+    getLoggedInStatus();
+  }, []);
 
   return (
     <>

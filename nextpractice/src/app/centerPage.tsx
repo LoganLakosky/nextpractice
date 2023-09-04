@@ -1,8 +1,9 @@
 import { useState, ChangeEvent, useEffect, Suspense } from "react";
 import MainContent from "./mainContent";
 import { Timeout } from "./lib/timeout";
-import GetRightHalfNotes from "./lib/getRightHalfNotes";
-import GetLeftHalfNotes from "./lib/getLeftHalfNotes";
+import GetAllNotes from "./lib/getAllNotes";
+import PostNote from "./lib/postNote";
+import CanPostNote from "./lib/canPostNote";
 
 export type NoteType = {
   title: string;
@@ -24,7 +25,7 @@ export default function CenterPage() {
 
   useEffect(() => {
     async function getNote() {
-      const notes = await GetLeftHalfNotes();
+      const notes = await GetAllNotes();
       const leftSideNotes: NoteType[] = [];
 
       for (let i = 0; i < 3; i++) {
@@ -41,6 +42,7 @@ export default function CenterPage() {
           if (notes[j] == undefined) break;
           rightSideNotes.push(notes[j]);
         }
+
         setRightNotesArr(rightSideNotes);
       }
     }
@@ -61,7 +63,7 @@ export default function CenterPage() {
     setNoteBodyValue(e.target.value);
   }
 
-  function createNote() {
+  async function createNote() {
     if (noteTitleValue === "") {
       Timeout(setNoteTitleError, 1200);
       setNoteTitleError(true);
@@ -88,6 +90,12 @@ export default function CenterPage() {
       return;
     }
 
+    if ((await CanPostNote(noteTitleValue)) == false) {
+      //ADD A ERROR PLEASE
+      console.log("bad");
+      return;
+    }
+
     const newNote: NoteType = {
       title: noteTitleValue,
       body: noteBodyValue,
@@ -97,17 +105,17 @@ export default function CenterPage() {
       Timeout(setMaxNotesReachedErr, 1200);
       setMaxNotesReachedErr(true);
       clearInputs();
-      return;
     }
 
     if (leftNotesArr.length === 3) {
       clearInputs();
       setRightNotesArr((prev) => [...prev, newNote]);
-      return;
     }
 
     clearInputs();
 
+    PostNote(noteTitleValue, noteBodyValue);
+    
     setLeftNotesArr((prev) => [...prev, newNote]);
   }
 
