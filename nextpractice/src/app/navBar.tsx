@@ -1,7 +1,7 @@
 "use client";
 import "./navBar.css";
 import Link from "next/link";
-import IsLoggedIn from "./lib/isLoggedIn";
+import IsLoggedIn from "./lib/firebaseHelperLibs/isLoggedIn";
 import { useEffect, useState } from "react";
 
 export default function NavBar() {

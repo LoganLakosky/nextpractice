@@ -1,6 +1,6 @@
 "use server";
 
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { doc, deleteDoc, getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -17,4 +17,6 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-export default async function GetNote() {}
+export default async function DeleteNote(noteName: string) {
+  await deleteDoc(doc(db, "Notes", noteName));
+}

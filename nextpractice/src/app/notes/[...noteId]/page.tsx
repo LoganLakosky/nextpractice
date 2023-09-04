@@ -4,7 +4,9 @@ import "../../navBar.css";
 import Link from "next/link";
 import { ChangeEvent, useEffect, useState } from "react";
 
-import IsLoggedIn from "@/app/lib/isLoggedIn";
+import IsLoggedIn from "@/app/lib/firebaseHelperLibs/isLoggedIn";
+import DeleteNote from "@/app/lib/firebaseHelperLibs/deleteNote";
+import UpdateNote from "@/app/lib/firebaseHelperLibs/updateNote";
 
 type Params = {
   params: {
@@ -12,14 +14,10 @@ type Params = {
   };
 };
 
-
-
 //Helper functions
 function takeUserBack() {
   window.location.href = "/";
 }
-
-function deleteNote() {}
 
 export default function Note({ params: { noteId } }: Params) {
   const [notesTitle, setNotesTitle] = useState<string>("");
@@ -42,7 +40,6 @@ export default function Note({ params: { noteId } }: Params) {
 
     setNotesTitle(noteTitleTmp);
     setNotesBody(noteBodyTmp);
-    console.log(extractedBodyTempArr);
   }, []);
 
   function updateNoteBody(e: ChangeEvent<HTMLTextAreaElement>) {
@@ -50,10 +47,13 @@ export default function Note({ params: { noteId } }: Params) {
   }
 
   function saveNoteDetails() {
+    console.log(notesTitle);
+    UpdateNote(notesTitle, updatedNotesBody);
+  }
 
-
-
-
+  function deleteNote() {
+    DeleteNote(notesTitle);
+    window.location.href = "/";
   }
 
   return (

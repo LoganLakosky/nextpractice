@@ -1,9 +1,9 @@
 import { useState, ChangeEvent, useEffect, Suspense } from "react";
 import MainContent from "./mainContent";
 import { Timeout } from "./lib/timeout";
-import GetAllNotes from "./lib/getAllNotes";
-import PostNote from "./lib/postNote";
-import CanPostNote from "./lib/canPostNote";
+import GetAllNotes from "./lib/firebaseHelperLibs/getAllNotes";
+import PostNote from "./lib/firebaseHelperLibs/postNote";
+import CanPostNote from "./lib/firebaseHelperLibs/canPostNote";
 
 export type NoteType = {
   title: string;

@@ -17,9 +17,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export default async function UpdateNote(noteName: string, newNoteBody: string) {
-  const washingtonRef = doc(db, "Note", noteName);
+  const noteRef = doc(db, "Notes", noteName);
 
-  await updateDoc(washingtonRef, {
-    noteBody: newNoteBody,
+  await updateDoc(noteRef, {
+    body: newNoteBody,
   });
 }
