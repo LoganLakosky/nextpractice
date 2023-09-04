@@ -15,35 +15,36 @@ export default function CenterPage() {
   const [leftNotesArr, setLeftNotesArr] = useState<NoteType[]>([]);
   const [rightNotesArr, setRightNotesArr] = useState<NoteType[]>([]);
 
-  const [notesArr, setNotesArr] = useState([]);
-
   //Error states
   const [noteTitleError, setNoteTitleError] = useState<boolean>(false);
   const [noteBodyError, setNoteBodyError] = useState<boolean>(false);
   const [maxNotesReachedErr, setMaxNotesReachedErr] = useState<boolean>(false);
+  const [noteTitleBangError, setNoteTitleBangError] = useState<boolean>(false);
+  const [noteBodyBangError, setNoteBodyBangError] = useState<boolean>(false);
 
   useEffect(() => {
     async function getNote() {
-      const a = await GetLeftHalfNotes();
+      const notes = await GetLeftHalfNotes();
       const leftSideNotes: NoteType[] = [];
 
       for (let i = 0; i < 3; i++) {
-        if (a[i] == undefined) break;
-        leftSideNotes.push(a[i]);
+        if (notes[i] == undefined) break;
+        leftSideNotes.push(notes[i]);
       }
-      
+
       setLeftNotesArr(leftSideNotes);
 
-      if (a.length > 3) {
+      if (notes.length > 3) {
         const rightSideNotes: NoteType[] = [];
 
         for (let j = 3; j < 6; j++) {
-          if (a[j] == undefined) break;
-          rightSideNotes.push(a[j]);
+          if (notes[j] == undefined) break;
+          rightSideNotes.push(notes[j]);
         }
         setRightNotesArr(rightSideNotes);
       }
     }
+
     getNote();
   }, []);
 
@@ -70,6 +71,20 @@ export default function CenterPage() {
     if (noteBodyValue === "") {
       Timeout(setNoteBodyError, 1200);
       setNoteBodyError(true);
+      return;
+    }
+
+    if (noteTitleValue.includes("!")) {
+      Timeout(setNoteTitleBangError, 1200);
+
+      setNoteTitleBangError(true);
+      return;
+    }
+
+    if (noteBodyValue.includes("!")) {
+      Timeout(setNoteBodyBangError, 1200);
+
+      setNoteBodyBangError(true);
       return;
     }
 
@@ -102,6 +117,10 @@ export default function CenterPage() {
         {!maxNotesReachedErr ? (
           <div className="centerPageTop">
             <div className="noteTitleContainer">
+              {noteTitleBangError && (
+                <label htmlFor="note-title">You cannot use a ! inside a note title</label>
+              )}
+
               {!noteTitleError && <label htmlFor="note-title">Title</label>}
               {noteTitleError && (
                 <label htmlFor="note-title" style={{ color: "red", fontSize: "14px" }}>
@@ -116,6 +135,10 @@ export default function CenterPage() {
               />
             </div>
             <div className="noteBodyInputContainer">
+              {noteBodyBangError && (
+                <label htmlFor="note-body">You cannot use a ! inside a note body</label>
+              )}
+
               {!noteBodyError && <label htmlFor="note-body">Body</label>}
               {noteBodyError && (
                 <label htmlFor="note-body" style={{ color: "red", fontSize: "14px" }}>

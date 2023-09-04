@@ -32,6 +32,10 @@ export default function MainContent({ leftSideNotes, rightSideNotes }: MainConte
               <div className="rightSideNotesTop">
                 <h2>{note.title}</h2>
               </div>
+              <Link
+                href={`/notes/title=!${note.title}!body=!${[note.body]}`}
+                className="goToNote"
+              ></Link>
             </div>
           );
         })}
