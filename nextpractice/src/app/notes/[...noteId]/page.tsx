@@ -2,7 +2,7 @@
 import "./notes.css";
 import "../../navBar.css";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 type Params = {
   params: {
@@ -20,22 +20,29 @@ function deleteNote() {}
 export default function Note({ params: { noteId } }: Params) {
   const [notesTitle, setNotesTitle] = useState<string>("");
   const [notesBody, setNotesBody] = useState<string>("");
+  const [updatedNotesBody, setUpdatedNotesBody] = useState<string>("");
 
   useEffect(() => {
     //Get title and body from noted
-    let extractedBodyTempArr = noteId[0].split("%3");
+    const extractedBodyTempArr = noteId[0].split("%3");
     extractedBodyTempArr.shift();
-    let extractedTitle = extractedBodyTempArr[0].split("!");
+    const extractedTitle = extractedBodyTempArr[0].split("!");
     extractedTitle.pop();
-    setNotesTitle(extractedTitle[0]);
+    setNotesTitle(extractedTitle[1]);
     setNotesBody(extractedBodyTempArr[1]);
   }, []);
+
+  function updateNoteBody(e: ChangeEvent<HTMLTextAreaElement>) {
+    setUpdatedNotesBody(e.target.value);
+  }
+
+  console.log(updatedNotesBody);
 
   return (
     <div className="notesPageMainContainer">
       <div className="navBarContainer">
         <div className="navBarLeft">
-          <Link href="/">Tod's Todo's</Link>
+          <Link href="/">Nathan's Note's</Link>
         </div>
       </div>
       <div className="notesPageMainContentContainer">
@@ -45,7 +52,11 @@ export default function Note({ params: { noteId } }: Params) {
           </div>
 
           <div className="notesPageMainContentCenter">
-            <textarea className="noteBody">{notesBody}</textarea>
+            <textarea
+              defaultValue={notesBody}
+              className="noteBody"
+              onChange={updateNoteBody}
+            ></textarea>
           </div>
 
           <div className="bottomBtnsContainer">
