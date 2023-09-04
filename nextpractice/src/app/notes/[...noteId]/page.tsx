@@ -23,7 +23,7 @@ export default function Note({ params: { noteId } }: Params) {
   const [updatedNotesBody, setUpdatedNotesBody] = useState<string>("");
 
   useEffect(() => {
-    //Get title and body from noted
+    //Get title and body from noteId
     const extractedBodyTempArr = noteId[0].split("%3");
     extractedBodyTempArr.shift();
     const extractedTitle = extractedBodyTempArr[0].split("!");
