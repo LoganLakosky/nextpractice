@@ -20,7 +20,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export default function NavBar() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
 
   useEffect(() => {
     async function checkIfLoggedIn() {
@@ -37,7 +37,6 @@ export default function NavBar() {
         return;
       }
 
-      setIsLoggedIn(true);
       return;
     }
 

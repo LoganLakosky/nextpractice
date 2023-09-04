@@ -3,6 +3,8 @@ import "./notes.css";
 import "../../navBar.css";
 import Link from "next/link";
 import { ChangeEvent, useEffect, useState } from "react";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
 type Params = {
   params: {
@@ -10,12 +12,28 @@ type Params = {
   };
 };
 
+const firebaseConfig = {
+  apiKey: "AIzaSyC1xSf41NuZdXi9Ex-gM6LUqvF_PK0u1uI",
+  authDomain: "next-practice-f806e.firebaseapp.com",
+  projectId: "next-practice-f806e",
+  storageBucket: "next-practice-f806e.appspot.com",
+  messagingSenderId: "935446946378",
+  appId: "1:935446946378:web:772dad7adda9262d23bcb3",
+  measurementId: "G-5BTR9RJFC3",
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
 //Helper functions
 function takeUserBack() {
   window.location.href = "/";
 }
 
 function deleteNote() {}
+
+
 
 export default function Note({ params: { noteId } }: Params) {
   const [notesTitle, setNotesTitle] = useState<string>("");
@@ -29,12 +47,15 @@ export default function Note({ params: { noteId } }: Params) {
     const extractedTitle = extractedBodyTempArr[0].split("!");
     extractedTitle.pop();
     setNotesTitle(extractedTitle[1]);
+    console.log(extractedBodyTempArr)
     setNotesBody(extractedBodyTempArr[1]);
   }, []);
 
   function updateNoteBody(e: ChangeEvent<HTMLTextAreaElement>) {
     setUpdatedNotesBody(e.target.value);
   }
+
+  function saveNote() {}
 
   console.log(updatedNotesBody);
 
@@ -61,6 +82,7 @@ export default function Note({ params: { noteId } }: Params) {
 
           <div className="bottomBtnsContainer">
             <button onClick={() => takeUserBack()}>Back</button>
+            <button onClick={() => saveNote()}>Save Note</button>
             <button onClick={() => deleteNote()}>Delete Note</button>
           </div>
         </div>

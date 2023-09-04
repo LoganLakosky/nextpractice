@@ -1,6 +1,8 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect, Suspense } from "react";
 import MainContent from "./mainContent";
 import { Timeout } from "./lib/timeout";
+import GetRightHalfNotes from "./lib/getRightHalfNotes";
+import GetLeftHalfNotes from "./lib/getLeftHalfNotes";
 
 export type NoteType = {
   title: string;
@@ -13,10 +15,37 @@ export default function CenterPage() {
   const [leftNotesArr, setLeftNotesArr] = useState<NoteType[]>([]);
   const [rightNotesArr, setRightNotesArr] = useState<NoteType[]>([]);
 
+  const [notesArr, setNotesArr] = useState([]);
+
   //Error states
   const [noteTitleError, setNoteTitleError] = useState<boolean>(false);
   const [noteBodyError, setNoteBodyError] = useState<boolean>(false);
   const [maxNotesReachedErr, setMaxNotesReachedErr] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function getNote() {
+      const a = await GetLeftHalfNotes();
+      const leftSideNotes: NoteType[] = [];
+
+      for (let i = 0; i < 3; i++) {
+        if (a[i] == undefined) break;
+        leftSideNotes.push(a[i]);
+      }
+      
+      setLeftNotesArr(leftSideNotes);
+
+      if (a.length > 3) {
+        const rightSideNotes: NoteType[] = [];
+
+        for (let j = 3; j < 6; j++) {
+          if (a[j] == undefined) break;
+          rightSideNotes.push(a[j]);
+        }
+        setRightNotesArr(rightSideNotes);
+      }
+    }
+    getNote();
+  }, []);
 
   function clearInputs() {
     setNoteTitleValue("");
@@ -111,8 +140,14 @@ export default function CenterPage() {
         )}
       </div>
       <div className="mainContentContainer">
-        <MainContent leftSideNotes={leftNotesArr} rightSideNotes={rightNotesArr} />
+        <Suspense fallback={<Loading />}>
+          <MainContent leftSideNotes={leftNotesArr} rightSideNotes={rightNotesArr} />
+        </Suspense>
       </div>
     </div>
   );
+}
+
+function Loading() {
+  return <h2> Loading...</h2>;
 }

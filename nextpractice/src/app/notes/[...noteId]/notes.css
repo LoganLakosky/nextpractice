@@ -46,6 +46,7 @@
   height: 100%;
   padding-left: 6px;
   padding-top: 6px;
+  resize: none;
 }
 
 .bottomBtnsContainer {

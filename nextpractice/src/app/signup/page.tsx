@@ -18,10 +18,8 @@ const firebaseConfig = {
   measurementId: "G-5BTR9RJFC3",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
 export default function Signup() {
@@ -83,7 +81,6 @@ export default function Signup() {
   async function getAllDocuments() {
     const querySnapshot = await getDocs(collection(db, "userInformation"));
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
       console.log(doc.id, " => ", doc.data());
     });
   }
