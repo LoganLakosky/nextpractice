@@ -8,13 +8,13 @@ import { getFirestore, setDoc, doc, getDoc, collection, getDocs } from "firebase
 import { Timeout } from "../lib/timeout";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC1xSf41NuZdXi9Ex-gM6LUqvF_PK0u1uI",
-  authDomain: "next-practice-f806e.firebaseapp.com",
-  projectId: "next-practice-f806e",
-  storageBucket: "next-practice-f806e.appspot.com",
-  messagingSenderId: "935446946378",
-  appId: "1:935446946378:web:772dad7adda9262d23bcb3",
-  measurementId: "G-5BTR9RJFC3",
+  apiKey: process.env.APIKEY,
+  authDomain: process.env.AUTHDOMAIN,
+  projectId: process.env.PROJECTID,
+  storageBucket: process.env.STORAGEBUCKET,
+  messagingSenderId: process.env.MESSAGINGSENDERID,
+  appId: process.env.APPID,
+  measurementId: process.env.MEASUREMENTID,
 };
 
 const app = initializeApp(firebaseConfig);

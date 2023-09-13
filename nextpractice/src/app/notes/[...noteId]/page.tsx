@@ -7,6 +7,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import IsLoggedIn from "@/app/lib/firebaseHelperLibs/isLoggedIn";
 import DeleteNote from "@/app/lib/firebaseHelperLibs/deleteNote";
 import UpdateNote from "@/app/lib/firebaseHelperLibs/updateNote";
+import GetNote from "@/app/lib/firebaseHelperLibs/getNote";
 
 type Params = {
   params: {
@@ -23,7 +24,9 @@ export default function Note({ params: { noteId } }: Params) {
   const [notesTitle, setNotesTitle] = useState<string>("");
   const [notesBody, setNotesBody] = useState<string>("");
   const [updatedNotesBody, setUpdatedNotesBody] = useState<string>("");
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   async function getLoggedInStatus() {
     const isLoggedInTmp = await IsLoggedIn();
@@ -33,13 +36,20 @@ export default function Note({ params: { noteId } }: Params) {
   useEffect(() => {
     getLoggedInStatus();
 
-    //Get title and body from noteId
     const extractedBodyTempArr = noteId[0].split("!");
     const noteTitleTmp = extractedBodyTempArr[1];
-    const noteBodyTmp = extractedBodyTempArr[3];
+
+    async function getCurrentNote() {
+      const currNote = await GetNote(noteTitleTmp);
+      setNotesBody(currNote!.body);
+      setIsLoading(false);
+    }
+
+    getCurrentNote();
+
+    //Get title and body from noteId
 
     setNotesTitle(noteTitleTmp);
-    setNotesBody(noteBodyTmp);
   }, []);
 
   function updateNoteBody(e: ChangeEvent<HTMLTextAreaElement>) {
@@ -60,7 +70,7 @@ export default function Note({ params: { noteId } }: Params) {
     <div className="notesPageMainContainer">
       <div className="navBarContainer">
         <div className="navBarLeft">
-          <Link href="/">Nathan's Note's</Link>
+          <Link href="/">Nathans Notes</Link>
         </div>
         <div className="navBarRight">
           {isLoggedIn && <Link href="/login">Login</Link>}
@@ -70,15 +80,19 @@ export default function Note({ params: { noteId } }: Params) {
       <div className="notesPageMainContentContainer">
         <div className="notesPageMainContent">
           <div className="notesPageTop">
-            <h1>{notesTitle}</h1>
+            {isLoading && <h1>Loading...</h1>}
+            {!isLoading && <h1>{notesTitle}</h1>}
           </div>
 
           <div className="notesPageMainContentCenter">
-            <textarea
-              defaultValue={notesBody}
-              className="noteBody"
-              onChange={updateNoteBody}
-            ></textarea>
+            {isLoading && <textarea defaultValue="Loading..." className="noteBody"></textarea>}
+            {!isLoading && (
+              <textarea
+                defaultValue={notesBody}
+                className="noteBody"
+                onChange={updateNoteBody}
+              ></textarea>
+            )}
           </div>
 
           <div className="bottomBtnsContainer">

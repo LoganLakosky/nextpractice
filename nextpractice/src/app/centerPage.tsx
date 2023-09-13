@@ -115,7 +115,7 @@ export default function CenterPage() {
     clearInputs();
 
     PostNote(noteTitleValue, noteBodyValue);
-    
+
     setLeftNotesArr((prev) => [...prev, newNote]);
   }
 
@@ -126,7 +126,9 @@ export default function CenterPage() {
           <div className="centerPageTop">
             <div className="noteTitleContainer">
               {noteTitleBangError && (
-                <label htmlFor="note-title">You cannot use a ! inside a note title</label>
+                <label htmlFor="note-title" style={{ color: "red" }}>
+                  You cannot use a ! inside a note title
+                </label>
               )}
 
               {!noteTitleError && <label htmlFor="note-title">Title</label>}
@@ -144,7 +146,9 @@ export default function CenterPage() {
             </div>
             <div className="noteBodyInputContainer">
               {noteBodyBangError && (
-                <label htmlFor="note-body">You cannot use a ! inside a note body</label>
+                <label htmlFor="note-body" style={{ color: "red" }}>
+                  You cannot use a ! inside a note body
+                </label>
               )}
 
               {!noteBodyError && <label htmlFor="note-body">Body</label>}
@@ -171,14 +175,8 @@ export default function CenterPage() {
         )}
       </div>
       <div className="mainContentContainer">
-        <Suspense fallback={<Loading />}>
-          <MainContent leftSideNotes={leftNotesArr} rightSideNotes={rightNotesArr} />
-        </Suspense>
+        <MainContent leftSideNotes={leftNotesArr} rightSideNotes={rightNotesArr} />
       </div>
     </div>
   );
-}
-
-function Loading() {
-  return <h2> Loading...</h2>;
 }
